@@ -50,7 +50,7 @@ function HomeScreen() {
                 <MDBTableBody>
                   <tr>
                     <th scope="row">1</th>
-                    <td>Buy groceries for next week</td>
+                    <td>week</td>
                     <td>In progress</td>
                     <td>
                       <MDBBtn type="submit" color="danger">
