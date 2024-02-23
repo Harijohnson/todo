@@ -9,10 +9,41 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 # Create your views here.
 
 
+# resources for user authentication
+#     https://jwt.io/    to decode the user token 
+#   https://django-rest-framework-simplejwt.readthedocs.io/en/latest/     jwt authenticaton
+#   https://www.django-rest-framework.org/api-guide/authentication/     json authentication api guid
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):  # copide from simplejwt  from git hun repo    https://github.com/jazzband/djangorestframework-simplejwt/blob/master/rest_framework_simplejwt/serializers.py
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data['name'] = self.user.username
+        data['email'] = self.user.email
+        data['is_admin'] = self.user.is_superuser
 
 
-def user(request):
-    pass
+
+        return data
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def todo(request):
     context={}
