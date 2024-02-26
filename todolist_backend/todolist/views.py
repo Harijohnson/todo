@@ -1,11 +1,14 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
-from todolist.models import  User
-from todolist.serializers import  UserSerializer,UserSerializerWithToken
+from todolist.models import  User,todo
+from todolist.serializers import  TodoSerializer, UserSerializer,UserSerializerWithToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+
+
 # Create your views here.
 
 
@@ -31,20 +34,16 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated,IsAuthenticated])
+def todoList(request):
+    # Retrieve all todo items from the database
+    print('request data ',request.user)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-def todo(request):
-    context={}
-    return render('<h1>Wlocome to todo </h1>',context=context)
+    # todo_items = todo.objects.all()
+    todo_items = todo.objects.filter(user=request.user)
+    # Serialize the todo items
+    serializer = TodoSerializer(todo_items, many=True)
+    print('serializer data',serializer)
+    # Return the serialized data as JSON response
+    return Response(serializer.data)

@@ -25,5 +25,5 @@ from . import views
 urlpatterns = [
     path('login/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
 
-    path('todo/',views.todo,name='todo'),
+    path('list/',views.todoList,name='todo-list'),
 ]
