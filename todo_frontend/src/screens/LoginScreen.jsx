@@ -2,18 +2,23 @@ import React,{useState,} from 'react'
 import { Link } from 'react-router-dom'
 import { Form,Button,Col,Row } from 'react-bootstrap'
 import  FormContainer  from '../components/FormContainer'
-import { login } from '../actions/todoAction'
+import { useDispatch ,} from 'react-redux'
+import { userLogin } from '../actions/TodoAction'
+import {useNavigate} from 'react-router-dom'
 
 function LoginScreen() {
 
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
 
-
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
     const submitHandeler = (e) => {
-        console.log('button clicked')
+        // console.log('button clicked')
         e.preventDefault()
-        login(email,password)
+
+        dispatch(userLogin(email,password))
+        navigate('/')
     }
   return (
     <FormContainer>

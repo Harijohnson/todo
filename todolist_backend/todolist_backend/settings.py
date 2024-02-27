@@ -91,8 +91,6 @@ SIMPLE_JWT = {
 }
 
 
-
-
 MIDDLEWARE = [
 
 
