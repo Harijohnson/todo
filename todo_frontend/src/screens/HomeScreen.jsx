@@ -127,7 +127,6 @@
 // }
 
 // export default HomeScreen
-
 import React, { useEffect } from 'react';
 import {
   MDBBtn,
@@ -151,7 +150,15 @@ function HomeScreen() {
   const { userInfo } = userLogin;
 
   useEffect(() => {
-    dispatch(todoItem());
+    // Check if user information is stored in local storage
+    const storedUserInfo = localStorage.getItem('userInfo');
+    if (storedUserInfo) {
+      // If user information is found in local storage, parse and set it in the Redux store
+      dispatch({ type: 'USER_LOGIN_SUCCESS', payload: JSON.parse(storedUserInfo) });
+    } else {
+      // If no user information is found in local storage, dispatch todoItem action to fetch todo list
+      dispatch(todoItem());
+    }
   }, [dispatch]);
 
   const todoListItem = useSelector(state => state.todoList);
@@ -164,7 +171,7 @@ function HomeScreen() {
           <MDBCol lg="9" xl="7">
             <MDBCard className="rounded-3">
               <MDBCardBody className="p-4">
-                {userInfo ? ( // If user is logged in, show the todo list
+                {userInfo ? (
                   <>
                     <h4 className="text-center my-3 pb-3">To Do App</h4>
                     <MDBRow className="row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2">
@@ -212,7 +219,7 @@ function HomeScreen() {
                       </MDBTableBody>
                     </MDBTable>
                   </>
-                ) : ( // If user is not logged in, show welcome text
+                ) : (
                   <h4 className="text-center my-3 pb-3">Welcome to the To Do App</h4>
                 )}
               </MDBCardBody>
