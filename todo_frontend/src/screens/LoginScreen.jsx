@@ -1,17 +1,19 @@
-import React,{useState} from 'react'
-import { Link,useLocation } from 'react-router-dom'
+import React,{useState,} from 'react'
+import { Link } from 'react-router-dom'
 import { Form,Button,Col,Row } from 'react-bootstrap'
 import  FormContainer  from '../components/FormContainer'
+import { login } from '../actions/todoAction'
 
 function LoginScreen() {
 
-    const {name,setName} = useState('')
-    const {password,setPassword} = useState('')
-    const location =useLocation()
-    const redirect = location.search ? location.search.split('=')[1] :'/'
+    const [email,setEmail] = useState('')
+    const [password,setPassword] = useState('')
+
+
     const submitHandeler = (e) => {
+        console.log('button clicked')
         e.preventDefault()
-        console.log('Button Clicked')
+        login(email,password)
     }
   return (
     <FormContainer>
@@ -19,17 +21,17 @@ function LoginScreen() {
             <Form onSubmit={submitHandeler} >
                 <Form.Group controlId='email'>
                     <Form.Label>
-                        User Name
+                        Email 
                     </Form.Label>
                     <Form.Control 
-                    type='text'
-                    placeholder='User Name'
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}>
+                    type='email'
+                    placeholder='Email Address'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}>
 
                     </Form.Control>
                 </Form.Group>
-                <Form.Group controlId='email'>
+                <Form.Group controlId='password'>
                     <Form.Label>
                         Password
                     </Form.Label>
@@ -51,7 +53,8 @@ function LoginScreen() {
 
             <Row className='py-3'>
                 <Col>
-                    New User ?   <Link to ={ redirect ? `/register ? redirect = ${redirect}` : '/register' }>
+                    New User ?   
+                    <Link to ='/register' >
                         Register
                     </Link>
                 </Col>
