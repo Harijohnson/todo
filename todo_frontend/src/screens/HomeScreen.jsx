@@ -143,7 +143,7 @@ import {
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { todoItem } from '../actions/TodoAction';
-
+import Loading from '../components/Loading'
 function HomeScreen() {
   const dispatch = useDispatch();
   const userLogin = useSelector(state => state.userInfo);
@@ -162,10 +162,11 @@ function HomeScreen() {
   }, [dispatch]);
 
   const todoListItem = useSelector(state => state.todoList);
-  const { todoList } = todoListItem;
+  const { todoList,loading } = todoListItem;
 
   return (
     <section className="vh-100" style={{ backgroundColor: "#eee" }}>
+      { loading ? (<Loading />):
       <MDBContainer className="py-5 h-100">
         <MDBRow className="d-flex justify-content-center align-items-center">
           <MDBCol lg="9" xl="7">
@@ -227,6 +228,7 @@ function HomeScreen() {
           </MDBCol>
         </MDBRow>
       </MDBContainer>
+      }
     </section>
   );
 }
