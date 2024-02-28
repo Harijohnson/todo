@@ -9,7 +9,7 @@ import {
     TODO_ITEM_REQUEST,
 
 } from '../constants/todoConstants'
-
+import { useSelector } from 'react-redux'
 
 
 export  const  userLogin = (email,password) => async (dispatch) => {
@@ -62,9 +62,13 @@ export const todoItem = () => async (dispatch) => {
         dispatch({
             type:TODO_ITEM_REQUEST,
         })
+
+        const userLogin  = useSelector(state => state.userInfo)   
+        const { userInfo } = userLogin
         const config = {
             headers:{
-                'Content-type':'application/json'
+                'Content-type':'application/json', 
+                Authorization  :`Bearer ${userInfo.refresh}`
             }
     
         }
