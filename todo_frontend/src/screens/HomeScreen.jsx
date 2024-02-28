@@ -14,6 +14,7 @@ import {
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { todoItem } from '../actions/TodoAction'
+import Loading from '../components/Loading';
 function HomeScreen() {
 
   const dispatch = useDispatch()
@@ -27,8 +28,8 @@ function HomeScreen() {
 
   
   const todoListItem  = useSelector(state => state.todoList)   
-  const { todoList } = todoListItem
-  console.log('todo item object' ,todoList)
+  const { todoList,loading } = todoListItem
+  // console.log('todo item object' ,todoList)
 
 
 
@@ -49,19 +50,16 @@ function HomeScreen() {
               <MDBRow className="row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2">
                 <MDBCol size="12">
                   <MDBInput
-                    label="Enter a task here"
+                  
                     id="form1"
                     type="text"
+                    placeholder='Enter Task here'
                   />
                 </MDBCol>
                 <MDBCol size="12">
                   <MDBBtn type="submit">Save</MDBBtn>
                 </MDBCol>
-                <MDBCol size="12">
-                  <MDBBtn type="submit" color="warning">
-                    Get tasks
-                  </MDBBtn>
-                </MDBCol>
+                
               </MDBRow>
 
               {/* Conditional rendering based on user login */}
@@ -75,15 +73,16 @@ function HomeScreen() {
                       <th scope="col">Actions</th>
                     </tr>
                   </MDBTableHead>
+                  { loading  ? (<Loading />) :(
                   <MDBTableBody>
-                    {todoList.map((todo, index) => (
+                    {todoList &&  todoList.map((todo, index) => (
                       <tr key={index}>
                         <th scope="row">{index + 1}</th>
                         <td>{todo.todo}</td>
                         <td>{todo.status || 'NA'}</td>
                         <td>
                           <MDBBtn type="submit" color="danger">
-                            Delete
+                              
                           </MDBBtn>
                           <MDBBtn type="submit" color="success" className="ms-1">
                             Finished
@@ -92,6 +91,7 @@ function HomeScreen() {
                       </tr>
                     ))}
                   </MDBTableBody>
+                  )}
                 </MDBTable>
               ) : (
                 <h2>Welcome to Todo App. Please login to view todos.</h2>

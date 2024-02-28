@@ -38,12 +38,12 @@ class MyTokenObtainPairView(TokenObtainPairView):
 @permission_classes([IsAuthenticated,IsAuthenticated])
 def todoList(request):
     # Retrieve all todo items from the database
-    # print('request data ',request.user)
+    print('request data ',request.user)
 
     # todo_items = todo.objects.all()
     todo_items = todo.objects.filter(user=request.user)
     # Serialize the todo items
     serializer = TodoSerializer(todo_items, many=True)
-    # print('serializer data',serializer)
+    print('serializer data',serializer)
     # Return the serialized data as JSON response
     return Response(serializer.data)
