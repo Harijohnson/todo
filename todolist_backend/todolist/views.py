@@ -19,12 +19,11 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):  # copide from simplejwt  from git hun repo    https://github.com/jazzband/djangorestframework-simplejwt/blob/master/rest_framework_simplejwt/serializers.py
     def validate(self, attrs):
         data = super().validate(attrs)
-        data['name'] = self.user.username
-        data['email'] = self.user.email
-        data['is_admin'] = self.user.is_superuser
+        serializer = UserSerializerWithToken(self.user).data
 
-
-
+        for k,v in serializer.items():
+            data[k]  =   v
+        
         return data
 
 class MyTokenObtainPairView(TokenObtainPairView):

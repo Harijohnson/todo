@@ -68,7 +68,7 @@ export const todoItem = () => async (dispatch) => {
         const config = {
             headers:{
                 'Content-type':'application/json', 
-                Authorization  :`Bearer ${userInfo.refresh}`
+                Authorization  :`Bearer ${userInfo.token}`
             }
     
         }
