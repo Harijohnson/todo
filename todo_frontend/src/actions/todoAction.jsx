@@ -8,8 +8,10 @@ import {
     TODO_ITEM_FAIL,
     TODO_ITEM_REQUEST,
 
+    USER_LOGOUT,
+
 } from '../constants/todoConstants'
-import { useSelector } from 'react-redux'
+
 
 
 export  const  userLogin = (email,password) => async (dispatch) => {
@@ -24,7 +26,7 @@ export  const  userLogin = (email,password) => async (dispatch) => {
 
     }
     const {data} = await axios.post(
-        '/api/user/login/',
+        '/api/todo/login/',
         {'username':email,'password':password},config
         )
   
@@ -57,14 +59,12 @@ export  const  userLogin = (email,password) => async (dispatch) => {
 
 
 
-export const todoItem = () => async (dispatch) => {
+export const todoItem = (userInfo) => async (dispatch) => {
     try{
         dispatch({
             type:TODO_ITEM_REQUEST,
         })
 
-        const userLogin  = useSelector(state => state.userInfo)   
-        const { userInfo } = userLogin
         const config = {
             headers:{
                 'Content-type':'application/json', 
@@ -91,4 +91,13 @@ export const todoItem = () => async (dispatch) => {
             error.detail,
         })
     }
+}
+
+
+
+export const logout = () => (dispatch) => {
+    localStorage.removeItem('userInfo')
+    dispatch({
+        type: USER_LOGOUT,
+    })
 }

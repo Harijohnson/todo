@@ -22,14 +22,15 @@ function HomeScreen() {
   const { userInfo } = userLogin
 
   useEffect(() => {
-    dispatch(todoItem());
-  }, [dispatch]);
-
+    if (userInfo) {
+        dispatch(todoItem(userInfo)); // Pass userInfo as parameter
+    }
+}, [dispatch, userInfo]);
 
   
   const todoListItem  = useSelector(state => state.todoList)   
   const { todoList,loading } = todoListItem
-  // console.log('todo item object' ,todoList)
+  console.log('todo item object' ,todoList)
 
 
 
@@ -82,7 +83,7 @@ function HomeScreen() {
                         <td>{todo.status || 'NA'}</td>
                         <td>
                           <MDBBtn type="submit" color="danger">
-                              
+                              Delete
                           </MDBBtn>
                           <MDBBtn type="submit" color="success" className="ms-1">
                             Finished

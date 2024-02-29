@@ -6,3 +6,7 @@ export const USER_LOGIN_FAIL = 'USER_LOGIN_FAIL'
 export const TODO_ITEM_REQUEST = 'TODO_ITEM_REQUEST'
 export const TODO_ITEM_SUCCESS = 'TODO_ITEM_SUCCESS'
 export const TODO_ITEM_FAIL = 'TODO_ITEM_FAIL'
+
+
+
+export const  USER_LOGOUT= 'USER_LOGOUT'

@@ -6,6 +6,10 @@ import {
     TODO_ITEM_REQUEST,
     TODO_ITEM_SUCCESS,
     TODO_ITEM_FAIL,
+
+    USER_LOGOUT,
+
+
 } from '../constants/todoConstants'
 
 
@@ -19,6 +23,9 @@ export const userLoginReducer = (state = {},action) => {
             return {loading:false,userInfo:action.payload}
         case USER_LOGIN_FAIL:
             return {loading:false,error:action.payload}
+        case USER_LOGOUT:
+            return {}
+        
         default:
             return state
     }

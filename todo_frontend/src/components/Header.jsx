@@ -5,8 +5,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from 'react-router-dom'
 import { LinkContainer  } from 'react-router-bootstrap'
+import { useSelector } from 'react-redux';
 
 function Header() {
+
+  const userLogin  = useSelector(state => state.userInfo)   
+  const { userInfo } = userLogin
+
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
@@ -14,11 +19,24 @@ function Header() {
         <Navbar.Brand>Home</Navbar.Brand>
         </LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        
+        
+        
+        { userInfo ? (
+        
         <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link ><Link to="profile/">Profile</Link></Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+        ) :
+        (
+          <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link ><Link to="login/">User</Link></Nav.Link>
           </Nav>
         </Navbar.Collapse>
+        )}
       </Container>
     </Navbar>
   )
