@@ -79,3 +79,23 @@ def deleteList(request,pk):
     deleteItem = todo.objects.get(user = user,id = pk)
     deleteItem.delete()
     return Response({'detail' : 'Todo is deleted' })
+
+
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def updateStatus(request,pk):
+    user = request.user
+    status = request.data['status']
+    try:
+        # Get the todo item by its primary key and user
+        todo_item = todo.objects.get(user=user, id=pk)
+    except todo.DoesNotExist:
+        return Response({'detail': 'Todo item not found'}, status=status.HTTP_404_NOT_FOUND)
+    status = request.data.get('status')  # Get the new status from request data
+    if status is not None:  # Check if new status is provided
+        todo_item.status = status  # Update the status
+        todo_item.save()  # Save the changes to the database
+        return Response({'detail': 'Todo status updated successfully'})
+    else:
+        return Response({'detail': 'No new status provided'}, status=status.HTTP_400_BAD_REQUEST)

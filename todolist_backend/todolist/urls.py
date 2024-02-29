@@ -28,4 +28,5 @@ urlpatterns = [
     path('list/',views.todoList,name='todo-list'),
     path('add/',views.addList, name='add-list'),
     path('delete/<str:pk>/',views.deleteList, name='delete-list'),
+    path('update/<str:pk>/',views.updateStatus, name='update-status'),
 ]
