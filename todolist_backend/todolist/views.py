@@ -41,15 +41,41 @@ def userProfile(request):
         return Response({"message": "User is not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
 
 @api_view(['GET'])
-# @permission_classes([IsAuthenticated,IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def todoList(request):
     # Retrieve all todo items from the database
-    print('request data ',request.user)
+    # print('request data ',request.user)
 
     # todo_items = todo.objects.all()
     todo_items = todo.objects.filter(user=request.user)
     # Serialize the todo items
     serializer = TodoSerializer(todo_items, many=True)
-    print('serializer data',serializer)
+    # print('serializer data',serializer)
     # Return the serialized data as JSON response
     return Response(serializer.data)
+
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def addList(request):
+
+    user = request.user
+    data = request.data['item']
+    status = request.data['status']
+    # print('data from request user',request.data['item'])
+    item = todo.objects.create(
+        user = user,
+        todo = data,
+        status = status,
+    )
+    return Response({'detail' : 'Todo is created' })
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def deleteList(request,pk):
+    user = request.user
+    deleteItem = todo.objects.get(user = user,id = pk)
+    deleteItem.delete()
+    return Response({'detail' : 'Todo is deleted' })

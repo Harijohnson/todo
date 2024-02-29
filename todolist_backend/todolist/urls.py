@@ -26,4 +26,6 @@ urlpatterns = [
     path('login/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('userprofile/',views.userProfile,name='user-profile'),
     path('list/',views.todoList,name='todo-list'),
+    path('add/',views.addList, name='add-list'),
+    path('delete/<str:pk>/',views.deleteList, name='delete-list'),
 ]
