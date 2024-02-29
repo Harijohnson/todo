@@ -7,7 +7,7 @@ from todolist.serializers import  TodoSerializer, UserSerializer,UserSerializerW
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-
+from rest_framework import status
 
 # Create your views here.
 
@@ -30,11 +30,18 @@ class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
 
-
-
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def userProfile(request):
+    user = request.user
+    if user.is_authenticated:
+        serializer = UserSerializer(user, many=False)
+        return Response(serializer.data)
+    else:
+        return Response({"message": "User is not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated,IsAuthenticated])
+# @permission_classes([IsAuthenticated,IsAuthenticated])
 def todoList(request):
     # Retrieve all todo items from the database
     print('request data ',request.user)
