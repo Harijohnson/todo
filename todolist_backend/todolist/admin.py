@@ -4,6 +4,6 @@ from .models import todo
 
 
 class todo_admin(admin.ModelAdmin):
-    fields = [ 'user','todo']
+    fields = ['user','todo','status']
 
 admin.site.register(todo,todo_admin)

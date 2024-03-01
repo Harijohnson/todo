@@ -153,11 +153,15 @@ export const todoDeleteItem = (userInfo,pk) => async (dispatch) => {
 // update the status
 
 
-export const todoUpdateStatus = (userInfo,pk) => async (dispatch) => {
+export const todoUpdateStatus = (userInfo,pk,statusvalue) => async (dispatch) => {
     try{
         dispatch({
             type:TODO_STATUS_UPDATE_REQUEST,
         })
+
+
+        const requestData = { status: statusvalue }; // Create an object with 'status' key
+
 
         const config = {
             headers:{
@@ -168,6 +172,7 @@ export const todoUpdateStatus = (userInfo,pk) => async (dispatch) => {
         }
         const {data} = await axios.patch(
             `/api/todo/update/${pk}/`,
+            requestData,
             config,
             )
         

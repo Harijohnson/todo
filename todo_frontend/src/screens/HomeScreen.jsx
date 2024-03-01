@@ -41,13 +41,17 @@ function HomeScreen() {
   const deleteHandler = (pk) => {
     // console.log('id from  db  to delete is ',pk)
     dispatch(todoDeleteItem(userInfo,pk))
-    dispatch(todoItem(userInfo));
+    .then(() => {
+      dispatch(todoItem(userInfo));
+    });
   };
 
-  const updateStatusHandler = (pk) => {
-    // console.log('id from update db is ',pk)
-    dispatch(todoUpdateStatus(userInfo,pk))
-    dispatch(todoItem(userInfo));
+  const updateStatusHandler = (pk,statusvalue) => {
+    // console.log('id from update db is ',statusvalue)
+    dispatch(todoUpdateStatus(userInfo,pk,statusvalue))
+    .then(() => {
+      dispatch(todoItem(userInfo));
+    });
   };
   return (
     <section style={{ backgroundColor: "#eee" }}>
@@ -87,7 +91,7 @@ function HomeScreen() {
               </Row>
 
               {userInfo ? (
-                <><Table className="mb-4">
+                <><Table className="mb-4 justify-content-center align-items-center ">
                     <thead>
                       <tr>
                         <th scope="col">No.</th>
@@ -104,17 +108,21 @@ function HomeScreen() {
                       ) : (
                         todoList && todoList.map((todo, index) => (
                           <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{todo.todo}</td>
-                            <td>{todo.status || 'NA'}</td>
-                            <td>
-                              <Button variant="danger" onClick={() => deleteHandler(todo.id)}>
-                                Delete
-                              </Button>
-                              <Button variant="success" className="ms-1" onClick={() => updateStatusHandler(todo.id)}>
-                                Finished
-                              </Button>
-                            </td>
+                            { todo.status !=='finished' ? 
+                            (<>
+                                <td>{index + 1}</td>
+                                <td>{todo.todo}</td>
+                                <td>{todo.status || 'NA'}</td>
+                                <td>
+                                    <Button variant="danger" onClick={() => deleteHandler(todo.id)}>
+                                      Delete
+                                    </Button>
+                                    <Button variant="success" className="ms-1"  onClick={() => updateStatusHandler(todo.id,'finished')}>
+                                      Finished
+                                    </Button>
+                                  </td>
+                              </>):
+                            <></> }
                           </tr>
                         ))
                       )}

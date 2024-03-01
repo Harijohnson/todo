@@ -87,7 +87,11 @@ def deleteList(request,pk):
 @permission_classes([IsAuthenticated])
 def updateStatus(request,pk):
     user = request.user
-    status = request.data['status']
+    print('request user  data',user)
+    status = request.data.get('statusvalue')
+
+    
+    print('request data',status)
     try:
         # Get the todo item by its primary key and user
         todo_item = todo.objects.get(user=user, id=pk)
