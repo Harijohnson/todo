@@ -29,13 +29,9 @@ function HomeScreen() {
   const [selectedStatus, setSelectedStatus] = useState('');
 
   const handleSaveTask = () => {
-    // Here you can dispatch an action to save the new task with its status
-    // For simplicity, I'm just logging the new task and its status
-    // console.log('New Task:', newTask);
-    // console.log('Selected Status:', selectedStatus);
-    // Clear the input fields after saving the task
-    setNewTask('');
-    setSelectedStatus('');
+
+    console.log()
+    
   };
 
   const deleteHandler = (pk) => {
@@ -61,34 +57,36 @@ function HomeScreen() {
           <Card className="rounded-3">
             <Card.Body className="p-4">
               <h4 className="text-center my-3 pb-3">To Do App</h4>
-              <Row className="g-3 mb-4 pb-2">
-                <Col xs="12">
-                  <Form.Control
-                    id="form1"
-                    type="text"
-                    placeholder="Enter Task here"
-                    value={newTask}
-                    onChange={(e) => setNewTask(e.target.value)}
-                  />
-                </Col>
-                <Col xs="8">
-                  <Form.Select
-                    value={selectedStatus}
-                    onChange={(e) => setSelectedStatus(e.target.value)}
-                  >
-                    <option value="">Select Status</option>
-                    <option value="Started">Not yet started</option>
-                    <option value="Started">Started</option>
-                    <option value="Ongoing">Ongoing</option>
-                    <option value="In Process">In Process</option>
-                  </Form.Select>
-                </Col>
-                <Col xs="4">
-                  <Button variant="primary" style={{ width: '100%' }} onClick={handleSaveTask}>
-                    Save
-                  </Button>
-                </Col>
-              </Row>
+              <Form>
+                      <Row className="g-3 mb-4 pb-2">
+                          <Col xs="12">
+                              <Form.Control
+                                  id="form1"
+                                  type="text"
+                                  placeholder="Enter Task here"
+                                  value={newTask}
+                                  onChange={(e) => setNewTask(e.target.value)} // Update newTask state when input value changes
+                              />
+                          </Col>
+                          <Col xs="8">
+                              <Form.Select
+                                  value={selectedStatus}
+                                  onChange={(e) => setSelectedStatus(e.target.value)} // Update selectedStatus state when selection changes
+                              >
+                                  <option value="">Select Status</option>
+                                  <option value="Started">Not yet started</option>
+                                  <option value="Started">Started</option>
+                                  <option value="Ongoing">Ongoing</option>
+                                  <option value="In Process">In Process</option>
+                              </Form.Select>
+                          </Col>
+                          <Col xs="4">
+                              <Button variant="primary" style={{ width: '100%' }} onClick={handleSaveTask}>
+                                  Save
+                              </Button>
+                          </Col>
+                      </Row>
+                  </Form>
 
               {userInfo ? (
                 <><Table className="mb-4 justify-content-center align-items-center ">

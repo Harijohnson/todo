@@ -19,7 +19,9 @@ import {
     TODO_STATUS_UPDATE_SUCCESS,
     TODO_STATUS_UPDATE_FAIL,
 
-
+    ADD_TASK_ITEM_REQUEST,
+    ADD_TASK_ITEM_SUCCESS,
+    ADD_TASK_ITEM_FAIL,
 
 } from '../constants/todoConstants'
 
@@ -76,6 +78,19 @@ export const todoStatusUpdateReducer = (state = {},action) => {
         case TODO_STATUS_UPDATE_SUCCESS:
             return {loading:false,todoList:action.payload}
         case TODO_STATUS_UPDATE_FAIL:
+            return {loading:false,error:action.payload}
+        default:
+            return state
+    }
+}
+
+export const addTaskReducer = (state = {},action) => {
+    switch(action.type){
+        case ADD_TASK_ITEM_REQUEST:
+            return {loading:true}
+        case ADD_TASK_ITEM_SUCCESS:
+            return {loading:false,todoList:action.payload}
+        case ADD_TASK_ITEM_FAIL:
             return {loading:false,error:action.payload}
         default:
             return state

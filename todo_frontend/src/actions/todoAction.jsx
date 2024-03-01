@@ -20,6 +20,10 @@ import {
     TODO_STATUS_UPDATE_FAIL,
 
 
+    ADD_TASK_ITEM_REQUEST,
+    ADD_TASK_ITEM_SUCCESS,
+    ADD_TASK_ITEM_FAIL,
+
 } from '../constants/todoConstants'
 
 
@@ -184,6 +188,43 @@ export const todoUpdateStatus = (userInfo,pk,statusvalue) => async (dispatch) =>
     catch (error){
         dispatch({
             type: TODO_STATUS_UPDATE_FAIL,
+            payload:error.response && error.response.data.detail
+            ?
+            error.response.data.detail:
+            error.detail,
+        })
+    }
+}
+
+
+
+
+export const addTaskItem = (userInfo) => async (dispatch) => {
+    try{
+        dispatch({
+            type:ADD_TASK_ITEM_REQUEST,
+        })
+
+        const config = {
+            headers:{
+                'Content-type':'application/json', 
+                Authorization  :`Bearer ${userInfo.token}`
+            }
+    
+        }
+        const {data} = await axios.post(
+            '/api/todo/add/',
+            config,
+            )
+        
+        dispatch({
+            type: ADD_TASK_ITEM_SUCCESS,
+            payload:data,
+        })
+    }
+    catch (error){
+        dispatch({
+            type: ADD_TASK_ITEM_FAIL,
             payload:error.response && error.response.data.detail
             ?
             error.response.data.detail:
