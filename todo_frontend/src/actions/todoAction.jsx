@@ -10,6 +10,16 @@ import {
 
     USER_LOGOUT,
 
+    TODO_ITEM_DELETE_REQUEST,
+    TODO_ITEM_DELETE_SUCCESS,
+    TODO_ITEM_DELETE_FAIL,
+
+
+    TODO_STATUS_UPDATE_REQUEST,
+    TODO_STATUS_UPDATE_SUCCESS,
+    TODO_STATUS_UPDATE_FAIL,
+
+
 } from '../constants/todoConstants'
 
 
@@ -100,4 +110,79 @@ export const logout = () => (dispatch) => {
     dispatch({
         type: USER_LOGOUT,
     })
+}
+
+
+// deleet the item
+
+export const todoDeleteItem = (userInfo,pk) => async (dispatch) => {
+    try{
+        dispatch({
+            type:TODO_ITEM_DELETE_REQUEST,
+        })
+
+        const config = {
+            headers:{
+                'Content-type':'application/json', 
+                Authorization  :`Bearer ${userInfo.token}`
+            }
+    
+        }
+        const {data} = await axios.delete(
+            `/api/todo/delete/${pk}/`,
+            config,
+            )
+        
+        dispatch({
+            type: TODO_ITEM_DELETE_SUCCESS,
+            payload:data,
+        })
+    }
+    catch (error){
+        dispatch({
+            type: TODO_ITEM_DELETE_FAIL,
+            payload:error.response && error.response.data.detail
+            ?
+            error.response.data.detail:
+            error.detail,
+        })
+    }
+}
+
+
+// update the status
+
+
+export const todoUpdateStatus = (userInfo,pk) => async (dispatch) => {
+    try{
+        dispatch({
+            type:TODO_STATUS_UPDATE_REQUEST,
+        })
+
+        const config = {
+            headers:{
+                'Content-type':'application/json', 
+                Authorization  :`Bearer ${userInfo.token}`
+            }
+    
+        }
+        const {data} = await axios.patch(
+            `/api/todo/update/${pk}/`,
+            config,
+            )
+        
+        dispatch({
+            type: TODO_STATUS_UPDATE_SUCCESS,
+            payload:data,
+        })
+    }
+    catch (error){
+        dispatch({
+            type: TODO_STATUS_UPDATE_FAIL,
+            payload:error.response && error.response.data.detail
+            ?
+            error.response.data.detail:
+            error.detail,
+        })
+    }
 }

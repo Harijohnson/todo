@@ -75,6 +75,7 @@ def addList(request):
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def deleteList(request,pk):
+    print("pk from front end ", pk)
     user = request.user
     deleteItem = todo.objects.get(user = user,id = pk)
     deleteItem.delete()

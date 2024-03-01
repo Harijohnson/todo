@@ -10,6 +10,17 @@ import {
     USER_LOGOUT,
 
 
+    TODO_ITEM_DELETE_REQUEST,
+    TODO_ITEM_DELETE_SUCCESS,
+    TODO_ITEM_DELETE_FAIL,
+
+
+    TODO_STATUS_UPDATE_REQUEST,
+    TODO_STATUS_UPDATE_SUCCESS,
+    TODO_STATUS_UPDATE_FAIL,
+
+
+
 } from '../constants/todoConstants'
 
 
@@ -38,6 +49,33 @@ export const todoReducer = (state = {},action) => {
         case TODO_ITEM_SUCCESS:
             return {loading:false,todoList:action.payload}
         case TODO_ITEM_FAIL:
+            return {loading:false,error:action.payload}
+        default:
+            return state
+    }
+}
+
+export const todoDeleteReducer = (state = {},action) => {
+    switch(action.type){
+        case TODO_ITEM_DELETE_REQUEST:
+            return {loading:true}
+        case TODO_ITEM_DELETE_SUCCESS:
+            return {loading:false,todoList:action.payload}
+        case TODO_ITEM_DELETE_FAIL:
+            return {loading:false,error:action.payload}
+        default:
+            return state
+    }
+}
+
+
+export const todoStatusUpdateReducer = (state = {},action) => {
+    switch(action.type){
+        case TODO_STATUS_UPDATE_REQUEST:
+            return {loading:true}
+        case TODO_STATUS_UPDATE_SUCCESS:
+            return {loading:false,todoList:action.payload}
+        case TODO_STATUS_UPDATE_FAIL:
             return {loading:false,error:action.payload}
         default:
             return state

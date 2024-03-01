@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Container, Form, Row, Table } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { todoItem } from '../actions/TodoAction';
+import { todoItem,todoDeleteItem,todoUpdateStatus } from '../actions/TodoAction';
 import Loading from '../components/Loading';
 function HomeScreen() {
 
@@ -38,12 +38,16 @@ function HomeScreen() {
     setSelectedStatus('');
   };
 
-  const deleteHandler = () => {
-    console.log('delete button clicked');
+  const deleteHandler = (pk) => {
+    // console.log('id from  db  to delete is ',pk)
+    dispatch(todoDeleteItem(userInfo,pk))
+    dispatch(todoItem(userInfo));
   };
 
-  const updateStatusHandler = () => {
-    console.log('update status button clicked');
+  const updateStatusHandler = (pk) => {
+    // console.log('id from update db is ',pk)
+    dispatch(todoUpdateStatus(userInfo,pk))
+    dispatch(todoItem(userInfo));
   };
   return (
     <section style={{ backgroundColor: "#eee" }}>
@@ -104,10 +108,10 @@ function HomeScreen() {
                             <td>{todo.todo}</td>
                             <td>{todo.status || 'NA'}</td>
                             <td>
-                              <Button variant="danger" onClick={deleteHandler}>
+                              <Button variant="danger" onClick={() => deleteHandler(todo.id)}>
                                 Delete
                               </Button>
-                              <Button variant="success" className="ms-1" onClick={updateStatusHandler}>
+                              <Button variant="success" className="ms-1" onClick={() => updateStatusHandler(todo.id)}>
                                 Finished
                               </Button>
                             </td>
