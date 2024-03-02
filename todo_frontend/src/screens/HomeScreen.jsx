@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Container, Form, Row, Table } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { todoItem,todoDeleteItem,todoUpdateStatus } from '../actions/TodoAction';
+import { todoItem,todoDeleteItem,todoUpdateStatus,addTaskItem } from '../actions/TodoAction';
 import Loading from '../components/Loading';
+import {useNavigate} from 'react-router-dom'
 function HomeScreen() {
 
   const dispatch = useDispatch()
@@ -23,14 +24,34 @@ function HomeScreen() {
 
 
   // console.log('usee name',userInfo.name)
-
+  const navigate = useNavigate()
 
   const [newTask, setNewTask] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
 
   const handleSaveTask = () => {
+    if(!userInfo){
+      navigate('login/')
+    }
+    else if (newTask.trim() && selectedStatus) { // Check if newTask is not empty and selectedStatus is not empty
+      // Dispatch an action to save the new task with its status
+      // For simplicity, I'm logging the new task and its status
+      
+      dispatch(addTaskItem(userInfo,newTask,selectedStatus))
+      .then(() => {
+        dispatch(todoItem(userInfo));
+      });
+      // Here you can dispatch an action to save the new task with its status
+      // For example:
+      // dispatch(saveTask(newTask, selectedStatus));
 
-    console.log()
+      // Clear the input fields after saving the task
+      setNewTask('');
+      setSelectedStatus('');
+  } else {
+      
+     alert('Please enter a task and select a status');
+  }
     
   };
 

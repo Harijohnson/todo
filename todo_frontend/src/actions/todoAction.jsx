@@ -199,12 +199,16 @@ export const todoUpdateStatus = (userInfo,pk,statusvalue) => async (dispatch) =>
 
 
 
-export const addTaskItem = (userInfo) => async (dispatch) => {
+export const addTaskItem = (userInfo,newTask,selectedStatus) => async (dispatch) => {
     try{
         dispatch({
             type:ADD_TASK_ITEM_REQUEST,
         })
 
+        const newtask= {
+            todo:newTask,
+            status:selectedStatus,
+        }
         const config = {
             headers:{
                 'Content-type':'application/json', 
@@ -214,6 +218,7 @@ export const addTaskItem = (userInfo) => async (dispatch) => {
         }
         const {data} = await axios.post(
             '/api/todo/add/',
+            newtask,
             config,
             )
         

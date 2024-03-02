@@ -61,7 +61,7 @@ def todoList(request):
 def addList(request):
 
     user = request.user
-    data = request.data['item']
+    data = request.data['todo']
     status = request.data['status']
     # print('data from request user',request.data['item'])
     item = todo.objects.create(
