@@ -8,7 +8,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import status
-
+from django.contrib.auth.hashers import make_password
 # Create your views here.
 
 
@@ -104,3 +104,24 @@ def updateStatus(request,pk):
         return Response({'detail': 'Todo status updated successfully'})
     else:
         return Response({'detail': 'No new status provided'}, status=status.HTTP_400_BAD_REQUEST)
+    
+
+
+
+
+
+@api_view(['POST'])
+def registerUser(request):
+    data = request.data
+    try :
+        user = User.objects.create(
+            first_name = data['name'],
+            username = data['email'],
+            email = data['email'],
+            password = make_password(data['password']),
+        )
+        serializer = UserSerializerWithToken(user,many=False)
+        return Response(serializer.data)
+    except:
+        message = {'detail':'User with this email alread exist'}
+        return Response(message,status=status.HTTP_400_BAD_REQUEST)

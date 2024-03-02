@@ -2,16 +2,31 @@ import React,{useState} from 'react'
 import { Link,useLocation } from 'react-router-dom'
 import { Form,Button,Col,Row } from 'react-bootstrap'
 import  FormContainer  from '../components/FormContainer'
-
+import { registerUser,userLogin } from '../actions/TodoAction';
+import {  useDispatch } from 'react-redux';
+import {useNavigate} from 'react-router-dom'
 function RegisterScreen() {
     const [name,setName] = useState('')
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
     const [confirmPassword,setConfirmPassword] = useState('')
-    const location =useLocation()
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
     // const redirect = location.search ? location.search.split('=')[1] :'/'
     const submitHandeler = (e) => {
         e.preventDefault()
+        if (password !== confirmPassword){
+            alert("password dose not match")
+        }
+        else {
+            dispatch(registerUser(name,email,password))
+            .then( () => {
+                dispatch(userLogin(email,password))
+                navigate('/')
+            }
+
+            )
+        }
         
     }
   return (
@@ -74,6 +89,15 @@ function RegisterScreen() {
                 </Button>
             </Form>
 
+
+            <Row className='py-3'>
+                <Col>
+                    Already User ? {' '}  
+                    <Link to ='/login' >
+                        Login
+                    </Link>
+                </Col>
+            </Row>
        
     </FormContainer>
   )

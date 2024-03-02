@@ -29,4 +29,5 @@ urlpatterns = [
     path('add/',views.addList, name='add-list'),
     path('delete/<str:pk>/',views.deleteList, name='delete-list'),
     path('update/<str:pk>/',views.updateStatus, name='update-status'),
+    path('register/', views.registerUser, name='register'),
 ]

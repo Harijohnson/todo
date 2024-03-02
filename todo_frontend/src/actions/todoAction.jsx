@@ -24,6 +24,11 @@ import {
     ADD_TASK_ITEM_SUCCESS,
     ADD_TASK_ITEM_FAIL,
 
+
+    REGISTER_USER_REQUEST,
+    REGISTER_USER_SUCCESS,
+    REGISTER_USER_FAIL,
+
 } from '../constants/todoConstants'
 
 
@@ -230,6 +235,52 @@ export const addTaskItem = (userInfo,newTask,selectedStatus) => async (dispatch)
     catch (error){
         dispatch({
             type: ADD_TASK_ITEM_FAIL,
+            payload:error.response && error.response.data.detail
+            ?
+            error.response.data.detail:
+            error.detail,
+        })
+    }
+}
+
+
+export const registerUser = (name,email,password) => async (dispatch) => {
+    try{
+        dispatch({
+            type:REGISTER_USER_REQUEST,
+        })
+
+        const userdata= {
+            name:name,
+            email:email,
+            password:password,
+        }
+        const config = {
+            headers:{
+                'Content-type':'application/json', 
+            }
+    
+        }
+        const {data} = await axios.post(
+            '/api/todo/register/',
+            userdata,
+            config,
+            )
+        
+        dispatch({
+            type: REGISTER_USER_SUCCESS,
+            payload:data,
+        })
+        dispatch({
+            type:USER_LOGIN_SUCCESS,
+            payload:data,
+        })
+    
+        localStorage.setItem('userInfo',JSON.stringify(data))
+    }
+    catch (error){
+        dispatch({
+            type: REGISTER_USER_FAIL,
             payload:error.response && error.response.data.detail
             ?
             error.response.data.detail:

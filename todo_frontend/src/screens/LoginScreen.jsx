@@ -58,7 +58,7 @@ function LoginScreen() {
 
             <Row className='py-3'>
                 <Col>
-                    New User ?   
+                    New User ?   {' '}
                     <Link to ='/register' >
                         Register
                     </Link>
