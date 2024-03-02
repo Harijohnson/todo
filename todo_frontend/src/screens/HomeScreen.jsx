@@ -58,17 +58,36 @@ function HomeScreen() {
   const deleteHandler = (pk) => {
     // console.log('id from  db  to delete is ',pk)
     dispatch(todoDeleteItem(userInfo,pk))
-    .then(() => {
-      dispatch(todoItem(userInfo));
-    });
+      .then(() => {
+        dispatch(todoItem(userInfo));
+      });
   };
 
-  const updateStatusHandler = (pk,statusvalue) => {
-    // console.log('id from update db is ',statusvalue)
-    dispatch(todoUpdateStatus(userInfo,pk,statusvalue))
-    .then(() => {
-      dispatch(todoItem(userInfo));
+  // const updateStatusHandler = (pk,statusvalue) => {
+  //   // console.log('id from update db is ',statusvalue)
+  //   dispatch(todoUpdateStatus(userInfo,pk,statusvalue))
+  //   .then(() => {
+  //     dispatch(todoItem(userInfo));
+  //   });
+  const updateStatusHandler = (pk, newStatus) => {
+    dispatch(todoUpdateStatus(userInfo, pk, newStatus))
+        .then(() => {
+            dispatch(todoItem(userInfo));
+        });
+
+    const updatedTodoList = todoList.map(todo => {
+        if (todo.id === pk) {
+            return { ...todo, status: newStatus };
+        }
+        return todo;
     });
+
+    const updatedTodo = updatedTodoList.find(todo => todo.id === pk);
+    if (updatedTodo) {
+        setSelectedStatus(updatedTodo.status);
+    }
+    
+
   };
   return (
     <section style={{ backgroundColor: "#eee" }}>
@@ -131,7 +150,19 @@ function HomeScreen() {
                             (<>
                                 <td>{index + 1}</td>
                                 <td>{todo.todo}</td>
-                                <td>{todo.status || 'NA'}</td>
+                                {/* <td>{todo.status || 'NA'}</td> */}
+
+                                <td><Form.Select
+                                  value={selectedStatus}
+                                  onChange={(e) => updateStatusHandler(todo.id,e.target.value)} 
+                              >
+                                  <option value="not yet started">Not yet started</option>
+                                  <option value="started">Started</option>
+                                  <option value="ongoing">Ongoing</option>  
+                                  <option value="end process">End Process</option>
+                              </Form.Select>
+
+                              </td>
                                 <td>
                                     <Button variant="danger" onClick={() => deleteHandler(todo.id)}>
                                       Delete
